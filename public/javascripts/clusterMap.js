@@ -5,7 +5,7 @@ mapboxgl.accessToken = mapToken;
         style: 'mapbox://styles/mapbox/dark-v11',
         // center: [-103.5917, 40.6699],
         center: [21.209118, 44.209404],
-        zoom: 5
+        zoom: 6
     });
 
     map.on('load', () => {
