@@ -127,6 +127,11 @@ app.get("/", (req, res) => {
     res.render("home");
 });
 
+// needs refactor - mika cene
+app.get("/mika", (req, res) => {
+    res.render("mika/index");
+});
+
 app.all("*", (req, res, next) => {
     next(new ExpressError("Page Not Found", 404));
 }); 

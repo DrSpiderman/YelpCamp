@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tag Print</title>
+  <link rel="stylesheet" href="/stylesheets/tag-print-styles.css">
+</head>
+<body>
+
+  <div class="controls">
+    <input type="file" id="file-input" accept=".xlsx" hidden>
+    <button id="upload-btn">Idemo batice upload Excel</button>
+    <button id="print-btn">Print bato, na najjače</button>
+    <span id="upload-status"></span>
+  </div>
+
+  <div id="print-area"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <!-- *** NEW *** JsBarcode -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
+  <script src="/javascripts/tag-print-logic.js"></script>
+
+</body>
+</html>

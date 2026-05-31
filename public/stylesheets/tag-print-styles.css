@@ -1,0 +1,234 @@
+/* ============================================================
+   TAG PRINT STYLES
+   Paper: A4 portrait (210mm × 297mm)
+   Usable width: ~190mm (10mm margins each side)
+
+   Tag sizes:
+     Large  — 95mm × 60mm  → 2 per row
+     Medium — 62mm × 45mm  → 3 per row
+     Small  — 46mm × 35mm  → 4 per row
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   IMPORT FONTS
+   ------------------------------------------------------------ */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&family=DM+Serif+Display&family=DM+Sans:wght@400;600&display=swap');
+
+/* ------------------------------------------------------------
+   SCREEN — PAGE WRAPPER
+   ------------------------------------------------------------ */
+body {
+  background: #e8e4dc;
+  font-family: 'DM Sans', sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Controls bar (your buttons live here) */
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+/* A4 page preview — hidden on screen, visible only when printing */
+#print-area {
+  display: none;
+}
+
+/* Success message shown after file upload */
+#upload-status {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #4a7c59;
+  font-weight: 600;
+}
+
+/* No-data message */
+.no-data {
+  color: #999;
+  font-size: 14px;
+  text-align: center;
+  padding: 40px 0;
+}
+
+/* ------------------------------------------------------------
+   TAG ROW — one row per product+size combo
+   ------------------------------------------------------------ */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;        /* overflow onto next line rather than clip */
+  /* gap: 2mm;
+  margin-bottom: 2mm; */
+}
+
+/* ------------------------------------------------------------
+   BASE TAG STYLES
+   ------------------------------------------------------------ */
+.tag {
+  box-sizing: border-box;
+  border: 0.4mm solid #1a1a1a;
+  padding: 3mm 4mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+
+  /* Subtle corner mark to aid cutting */
+  outline: none;
+}
+
+/* Decorative corner cut marks (CSS only, print-friendly) */
+.tag::before,
+.tag::after {
+  content: '';
+  position: absolute;
+  width: 3mm;
+  height: 3mm;
+  border-color: #cccccc;
+  border-style: solid;
+}
+.tag::before {
+  top: 0;
+  left: 0;
+  border-width: 0.3mm 0 0 0.3mm;
+}
+.tag::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 0.3mm 0.3mm 0;
+}
+
+/* Code line — e.g. "šifra 150" */
+.tag-code {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 6.5pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555555;
+}
+
+/* Product name */
+.tag-name {
+  font-family: 'DM Serif Display', serif;
+  color: #1a1a1a;
+  line-height: 1.25;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Price */
+.tag-price {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+  border-top: 0.3mm solid #dddddd;
+  padding-top: 1.5mm;
+  margin-top: 1.5mm;
+}
+
+/* ------------------------------------------------------------
+   SIZE VARIANTS
+   ------------------------------------------------------------ */
+
+/* LARGE — 95mm × 60mm — 2 per row */
+.tag-large {
+  width: 95mm;
+  height: 60mm;
+  padding: 4mm 5mm;
+}
+.tag-large .tag-code  { font-size: 7pt; }
+.tag-large .tag-name  { font-size: 12pt; }
+.tag-large .tag-price { font-size: 16pt; }
+
+/* MEDIUM — 62mm × 45mm — 3 per row */
+.tag-medium {
+  width: 62mm;
+  height: 45mm;
+  padding: 3mm 4mm;
+}
+.tag-medium .tag-code  { font-size: 6pt; }
+.tag-medium .tag-name  { font-size: 9pt; }
+.tag-medium .tag-price { font-size: 13pt; }
+
+/* SMALL — 46mm × 35mm — 4 per row */
+.tag-small {
+  width: 46mm;
+  height: 35mm;
+  padding: 2.5mm 3mm;
+}
+.tag-small .tag-code  { font-size: 5.5pt; }
+.tag-small .tag-name  { font-size: 7.5pt; }
+.tag-small .tag-price { font-size: 11pt; }
+
+/* ------------------------------------------------------------
+   PRINT MEDIA — hide controls, reset page
+   ------------------------------------------------------------ */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  body {
+    background: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .controls,
+  h1,
+  #upload-status {
+    display: none !important;
+  }
+
+  #print-area {
+    display: block;
+    width: 100%;
+    min-height: unset;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    background: #ffffff;
+  }
+
+  .tag {
+    /* Prevent a tag from being split across pages */
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+  }
+
+  .tag-row {
+    break-inside: avoid;
+  }
+}
+
+/* ------------------------------------------------------------
+   *** NEW *** BARCODE
+   ------------------------------------------------------------ */
+
+/* Wrapper sits below the price line */
+.tag-barcode {
+  margin-top: 1.5mm;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/* Make the SVG fill the tag width */
+.tag-barcode svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* *** NEW *** Increase tag heights to fit barcode */
+.tag-large  { height: 72mm; }
+.tag-medium { height: 55mm; }
+.tag-small  { height: 44mm; }
